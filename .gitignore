@@ -1,0 +1,6 @@
+# node_modules is installed via npm install
+node_modules/
+
+# Create these folders manually after clone (used for temp image storage)
+uploads/
+converted/
