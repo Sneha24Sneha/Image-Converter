@@ -1,4 +1,4 @@
-## Image Converter Microservice project:
+## Image Converter project(Node JS):
 
 ## 📸 Screenshot
 
@@ -27,7 +27,7 @@ A simple Node.js microservice to convert uploaded images to different formats (`
 - Sharp
 - Multer
 - Bootstrap (Frontend)
-- Docker (Optional)
+- Docker Supported
 
 
 ## 🚀 Getting Started
