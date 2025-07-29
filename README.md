@@ -64,7 +64,7 @@ Visit: [http://localhost:3000](http://localhost:3000)
 
 ## 📁 Project Structure
 
-
+```
 image-converter/
 ├── public/                     # Static frontend (HTML form)
 │   └── index.html
