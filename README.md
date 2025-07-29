@@ -66,13 +66,17 @@ Visit: [http://localhost:3000](http://localhost:3000)
 
 ```
 image-converter/
-├── public/             # Static frontend (HTML form)
+├── public/                     # Static frontend (HTML form)
 │   └── index.html
-├── uploads/            # Temporary uploads (auto-created)
-├── converted/          # Converted files (auto-created)
-├── server.js           # Express server
-├── Dockerfile          # For containerized deployment
+├── uploads/                     # Temporary uploads (auto-created)
+├── converted/                   # Converted files (auto-created)
+├── server.js                    # Express server
+├── Dockerfile                   # For containerized production
+├── Dockerfile.dev               # For containerized deployment
+├── docker-compose.yml           # For containerized production
+├── docker-compose.dev.yml       # For containerized deployment
 ├── package.json
+├── ecosystem.config.js          # For PM2 library settings for production
 └── README.md
 ```
 
@@ -106,7 +110,50 @@ docker build -f Dockerfile.dev -t image-converter-dev .
 docker run -p 3000:3000 image-converter-dev
 ```
 
-> For development with live-reloading, use a `Dockerfile.dev` and `docker-compose` (optional).
+> For development with live-reloading, use a `Dockerfile.dev`.
+
+
+### 🐳 Production Commands Using Docker Compose
+
+Instead of running build/run manually, you can now:
+
+#### 1. "Build the image"
+
+```bash
+docker-compose build
+```
+#### 1.1 "Re-Build the image"
+
+```bash
+docker-compose up --build
+````
+
+#### 2. "Run the container"
+
+```bash
+docker-compose up -d
+```
+
+#### 3. "Stop the container"
+
+```bash
+docker-compose down
+```
+
+
+### 🛠 Development Usage
+
+#### 1. "Build and start in development mode:"
+
+```bash
+docker-compose -f docker-compose.dev.yml up --build
+```
+
+#### 2. "Stop the container:"
+
+```bash
+docker-compose -f docker-compose.dev.yml down
+```
 
 
 ## ⚙️ API Endpoint
@@ -141,3 +188,53 @@ Made by \ Sneha Sharma
 
 
 ```
+
+
+### 🔧 Command understand:
+
+```Dockerfile
+RUN addgroup app && adduser -S -G app app
+USER app
+```
+
+---
+
+### 🧠 What It Does:
+
+This block "creates a non-root user" named `app` and switches to it for security.
+
+---
+
+## 🔍 Detailed Explanation
+
+### 1. `RUN addgroup app && adduser -S -G app app`
+
+This runs during the Docker image build phase.
+
+| Part           | Meaning                                                |
+| -------------- | ------------------------------------------------------ |
+| `addgroup app` | Creates a new group called `app`                       |
+| `adduser -S`   | Adds a "system user" (non-login, minimal privileges)   |
+| `-G app`       | Assigns the new user to the `app` group                |
+| `app`          | The username being created                             |
+
+👮 "Why?"
+Using a non-root user enhances security by avoiding permissions that could be exploited if the app is compromised.
+
+
+### 2. `USER app`
+
+This sets the "default user" for all following instructions (and at runtime).
+
+After this line:
+
+1) All file operations (`COPY`, `RUN`, `CMD`, etc.) are executed "as `app` user", not root.
+2) This prevents the container from running your app with "root privileges" (a security risk).
+
+
+🔐 Why Use This?
+
+Running containers as `root` is a "bad practice" in production because:
+
+1) If someone exploits your app, they gain root access inside the container.
+2) In some environments (e.g., Kubernetes, cloud platforms), root containers are restricted or blocked.

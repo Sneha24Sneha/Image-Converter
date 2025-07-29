@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  image-converter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: image-converter-dev
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+    volumes:
+      - .:/app       # Mount local source code into container
+      - /app/node_modules  # Avoid overwriting node_modules inside container
+    command: npm run dev  # Assumes you have a dev script like "nodemon" or similar

@@ -1,6 +1,6 @@
 # Create these folders manually after clone (used for temp image storage)
-uploads/
-converted/
+#uploads/
+#converted/
 
 # Logs
 logs

@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  image-converter:
+    image: image-converter           # ✅ Explicit image name to prevent duplication
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: image-converter
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+    restart: unless-stopped
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
