@@ -1,11 +1,14 @@
 # Dockerfile
-FROM node:22-alpine
+
+# Stage 1: Development
+FROM node:22-alpine AS dev
 
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install
+# Install all dependencies, including devDependencies
+RUN npm install --include=dev
 
 COPY . .
 
