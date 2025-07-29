@@ -64,7 +64,7 @@ Visit: [http://localhost:3000](http://localhost:3000)
 
 ## 📁 Project Structure
 
-```
+
 image-converter/
 ├── public/                     # Static frontend (HTML form)
 │   └── index.html
@@ -187,23 +187,19 @@ Response:
 Made by \ Sneha Sharma
 
 
-```
 
-
-### 🔧 Command understand:
+## 🔧 Command understand:
 
 ```Dockerfile
 RUN addgroup app && adduser -S -G app app
 USER app
 ```
 
----
 
 ### 🧠 What It Does:
 
 This block "creates a non-root user" named `app` and switches to it for security.
 
----
 
 ## 🔍 Detailed Explanation
 
@@ -232,7 +228,7 @@ After this line:
 2) This prevents the container from running your app with "root privileges" (a security risk).
 
 
-🔐 Why Use This?
+#### 🔐 Why Use This?
 
 Running containers as `root` is a "bad practice" in production because:
 
